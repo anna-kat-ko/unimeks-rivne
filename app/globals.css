@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/* ---------- Lenis: плавный скролл (components/SmoothScroll.tsx) ----------
+   Lenis ставит класс .lenis на html и гасит нативный scroll-behavior,
+   чтобы плавность вёл он, а не браузер. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* ==========================================================
+   ТОКЕНЫ БРЕНДА — единственное место, где живут цвета.
+   Заполняет билдер палитрой из направления директора
+   (выведенной ГЛАЗАМИ по фото клиента, не из автопалитры).
+   Внутри компонентов цвета не хардкодить.
+   ========================================================== */
+/* ВАЖНО (грабля Tailwind v4): именно `@theme static`, а не `@theme`.
+   Обычный @theme вырезает переменные, которые не использованы утилити-классом,
+   и тогда var(--font-display) в обычном CSS резолвится в пустоту, шрифт молча
+   падает на системный. static эмитит все токены. Проверено на скелете. */
+@theme static {
+  /* фон и поверхности — по референсу AIMEE: пудрово-розовый/кремовый, не терракота */
+  --color-bg: #fbf1ee;
+  --color-surface: #f6e0e2;
+
+  /* текст */
+  --color-ink: #2b2320;
+  --color-ink-soft: #7a6963;
+
+  /* акцент бренда — пыльная роза (AIMEE), с осветлённой версией под мелкие плашки */
+  --color-accent: #c9748f;
+  --color-accent-ink: #ffffff;
+  --color-accent-soft: #f3c7d3;
+  /* тот же оттенок, затемнён под текст/кнопки — --color-accent на тексте и белом даёт
+     3.29:1 и 2.97:1 (провал WCAG AA 4.5:1). deep даёт 5.2–5.8:1, проверено audit-контрастом. */
+  --color-accent-deep: #aa4263;
+
+  /* шрифты подключены в app/layout.tsx через next/font */
+  --font-display: var(--font-display-src);
+  --font-text: var(--font-text-src);
+}
+
+/* контраст тела обязателен ≥ 4.5:1 к --color-bg, проверяется в audit.py */
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-text), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.display {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+}
+
+/* мобилка: горизонтального скролла быть не должно (проверяется в screenshot.py) */
+html,
+body {
+  overflow-x: clip;
+}
