@@ -18,21 +18,27 @@ const REGISTRATION_ENDPOINT = "https://unimeks-registration-rivne.provizgotocan.
 // Telegram-бот запису: заявка дублюється туди, щоб бот одразу знав ім'я й телефон
 const BOT_LEAD_ENDPOINT = "https://unimex-bot.vercel.app/api/lead";
 const BOT_SITE_CODE = "s5"; // код цього сайту у вкладці «Сайты» таблиці бота
+const BOT_CITY = "Рівне";
 const BOT_FALLBACK_LINK = `https://t.me/Unimex_assistant_bot?start=${BOT_SITE_CODE}`;
 const REDIRECT_SECONDS = 4;
 
-async function sendToBot(payload: Record<string, string>): Promise<string> {
-  try {
-    const res = await fetch(BOT_LEAD_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...payload, site: BOT_SITE_CODE, city: "Рівне" }),
-    });
-    const data = await res.json();
-    return data?.ok && data.link ? data.link : BOT_FALLBACK_LINK;
-  } catch {
-    return BOT_FALLBACK_LINK; // бот недоступний — все одно ведемо в Telegram, там спитають контакт
-  }
+// Короткий id заявки: генеруємо на сайті, щоб посилання в бот було готове одразу
+function newLeadId(): string {
+  const abc = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const bytes = crypto.getRandomValues(new Uint8Array(10));
+  return Array.from(bytes, (b) => abc[b % abc.length]).join("");
+}
+
+// Заявка йде в бота фоном: сайт на неї не чекає, keepalive не дає обірвати запит під час переходу в Telegram
+function sendToBot(payload: Record<string, string>): string {
+  const id = newLeadId();
+  fetch(BOT_LEAD_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=UTF-8" },
+    body: JSON.stringify({ ...payload, id, site: BOT_SITE_CODE, city: BOT_CITY }),
+    keepalive: true,
+  }).catch(() => {});
+  return `https://t.me/Unimex_assistant_bot?start=${BOT_SITE_CODE}_${id}`;
 }
 
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"] as const;
@@ -83,7 +89,6 @@ export default function FormSection() {
     setStatus("loading");
     try {
       const payload = { name, phone, ...readStoredUtm() };
-      const botPromise = sendToBot(payload);
       const res = await fetch(REGISTRATION_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -100,7 +105,7 @@ export default function FormSection() {
         return;
       }
       window.fbq?.("track", "Lead");
-      setBotLink(await botPromise);
+      setBotLink(sendToBot(payload));
       setSecondsLeft(REDIRECT_SECONDS);
       setStatus("success");
       setName("");
