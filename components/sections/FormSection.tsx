@@ -153,10 +153,10 @@ export default function FormSection() {
             <p className="mb-5 text-sm text-(--color-ink-soft)">
               Запрошення з датою, адресою та схемою проходу надішлемо в Telegram.
             </p>
-            <p className="mb-1 text-sm font-semibold">🎁 Подарунок для тебе</p>
+            <p className="mb-1 text-sm font-semibold">🎁 Подарунок для вас</p>
             <p className="mb-5 text-sm text-(--color-ink-soft)">
-              Безкоштовний відеоурок «Побудова викрійки трикотажної сукні» за методом «УніМеКС».
-              Натисни «Старт» у боті — урок одразу прийде в чат.
+              Переходьте в Telegram-бот та отримайте безкоштовно подарунок — урок побудови викрійки
+              трикотажної сукні за методом «УніМеКС». Натисніть «Старт» у боті.
             </p>
             <a
               href={botLink}
