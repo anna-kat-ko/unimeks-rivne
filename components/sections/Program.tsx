@@ -31,11 +31,19 @@ export default function Program() {
 
         {site.programNote && (
           <div data-rv className="mt-8 rounded-2xl bg-(--color-accent-soft)/60 p-5 text-sm leading-relaxed text-(--color-ink)">
-            {site.programNote.split("\n\n").map((paragraph, i) => (
-              <p key={i} className={i > 0 ? "mt-3" : undefined}>
-                {paragraph}
-              </p>
-            ))}
+            {site.programNote.split("\n\n").map((paragraph, i, all) => {
+              const isLast = i === all.length - 1;
+              return (
+                <p
+                  key={i}
+                  className={[i > 0 ? "mt-3" : "", isLast ? "font-semibold text-(--color-accent-deep)" : ""]
+                    .filter(Boolean)
+                    .join(" ")}
+                >
+                  {paragraph}
+                </p>
+              );
+            })}
           </div>
         )}
       </div>
