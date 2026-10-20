@@ -45,7 +45,7 @@ export default function Program() {
             className="mt-6 flex items-start gap-4 rounded-2xl bg-(--color-accent-deep) p-6 text-(--color-accent-ink)"
           >
             <span aria-hidden className="text-2xl leading-none">
-              🎁
+              ⏱️
             </span>
             <div>
               <p className="display mb-1 text-lg leading-tight">{site.programBonus.heading}</p>
