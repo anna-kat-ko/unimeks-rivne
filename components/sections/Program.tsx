@@ -30,9 +30,13 @@ export default function Program() {
         </div>
 
         {site.programNote && (
-          <p data-rv className="mt-8 rounded-2xl bg-(--color-accent-soft)/60 p-5 text-sm leading-relaxed text-(--color-ink)">
-            {site.programNote}
-          </p>
+          <div data-rv className="mt-8 rounded-2xl bg-(--color-accent-soft)/60 p-5 text-sm leading-relaxed text-(--color-ink)">
+            {site.programNote.split("\n\n").map((paragraph, i) => (
+              <p key={i} className={i > 0 ? "mt-3" : undefined}>
+                {paragraph}
+              </p>
+            ))}
+          </div>
         )}
       </div>
     </section>
