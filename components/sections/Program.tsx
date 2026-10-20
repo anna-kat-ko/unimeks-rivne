@@ -31,19 +31,26 @@ export default function Program() {
 
         {site.programNote && (
           <div data-rv className="mt-8 rounded-2xl bg-(--color-accent-soft)/60 p-5 text-sm leading-relaxed text-(--color-ink)">
-            {site.programNote.split("\n\n").map((paragraph, i, all) => {
-              const isLast = i === all.length - 1;
-              return (
-                <p
-                  key={i}
-                  className={[i > 0 ? "mt-3" : "", isLast ? "font-semibold text-(--color-accent-deep)" : ""]
-                    .filter(Boolean)
-                    .join(" ")}
-                >
-                  {paragraph}
-                </p>
-              );
-            })}
+            {site.programNote.split("\n\n").map((paragraph, i) => (
+              <p key={i} className={i > 0 ? "mt-3" : undefined}>
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        )}
+
+        {site.programBonus && (
+          <div
+            data-rv
+            className="mt-6 flex items-start gap-4 rounded-2xl bg-(--color-accent-deep) p-6 text-(--color-accent-ink)"
+          >
+            <span aria-hidden className="text-2xl leading-none">
+              🎁
+            </span>
+            <div>
+              <p className="display mb-1 text-lg leading-tight">{site.programBonus.heading}</p>
+              <p className="text-sm leading-relaxed opacity-90">{site.programBonus.text}</p>
+            </div>
           </div>
         )}
       </div>
