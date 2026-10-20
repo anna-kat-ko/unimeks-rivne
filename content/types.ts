@@ -99,6 +99,7 @@ export type SiteContent = {
 
   program?: { time?: string; title: string }[];
   programNote?: string;
+  programBonus?: { heading: string; text: string };
 
   evenIf?: string[];
 
