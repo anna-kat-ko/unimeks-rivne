@@ -29,6 +29,9 @@ const text = Manrope({
 export const metadata: Metadata = {
   title: site.seo.title,
   description: site.seo.description,
+  verification: {
+    google: "amUKcWS9qUWSW9exdn-eyXrZ8KLG6xX_kZCZfdm2zYs",
+  },
 };
 
 export default function RootLayout({
