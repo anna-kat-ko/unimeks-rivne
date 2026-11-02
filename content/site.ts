@@ -37,7 +37,7 @@ export const site: SiteContent = {
     eventDetails: {
       address: "вул. Любомира Гузара, 2",
       date: "7 листопада 2026",
-      time: "14:00",
+      time: "15:00",
     },
     compare: {
       resultPrice: "0 грн",
@@ -149,7 +149,7 @@ export const site: SiteContent = {
 
   contacts: {
     address: "вул. Любомира Гузара, 2",
-    hours: "7 листопада 2026, 14:00",
+    hours: "7 листопада 2026, 15:00",
     mapEmbed:
       "https://www.google.com/maps/d/viewer?mid=1xBsPh9BVvmcLWUmE7XyHO3rOCNc&femb=1&ll=0%2C0&z=13",
     social: [
